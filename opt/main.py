@@ -1,6 +1,7 @@
 import csv
 import pandas as pd
 import pprint
+from tabulate import tabulate as tab
 
 #データの読み込み
 def preReaderDB():
@@ -31,11 +32,11 @@ def recordData(DB:list):
 
 # #budget
 # def budget():
-     
+
 
 #DBの表示
 def showDB(db:list):
-    
+    print(tab(db,headers=['date','name','price','class'],tablefmt='github'))
 
 
 #lineの表示
