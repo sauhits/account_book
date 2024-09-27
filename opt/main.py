@@ -36,7 +36,7 @@ def recordData(DB:list):
 
 #DBの表示
 def showDB(db:list):
-    print(tab(db,headers=['date','name','price','class'],tablefmt='github'))
+    print(tab(db,headers=['date','name','price','class'],tablefmt='github',numalign='left'))
 
 
 #lineの表示
