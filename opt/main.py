@@ -2,40 +2,70 @@ import csv
 import pandas as pd
 import pprint
 
+#データの読み込み
 def preReaderDB():
-    DB=pd.read_csv("book.csv",header=None).values.tolist()
+    DB:list=pd.read_csv("book.csv",header=None).values.tolist()
     # print(DB)
     return DB
 
 #データの記録　20000101,カネスエ,XXXX,free(loan)
-def recordData(DB):
+def recordData(DB:list):
             while True:
-                print("\n"+"YYYYMMDD"+"\n")
+                print("\n"+"YYYYMMDD","\n")
                 date_tmp=input()
-                print("storeName"+"\n")
+                print("storeName","\n")
                 store_tmp=input()
-                print("price"+"\n")
+                print("price","\n")
                 price_tmp=input()
-                print("class"+"\n")
+                print("class","\n")
                 class_tmp=input()
-                print("date: "+date_tmp+"\n"+"store: "+store_tmp+"\n"+"price: "+price_tmp+"\n"+"class: "+class_tmp+"\n"+"OK? Y/n"+"\n")
+                print("date: ",date_tmp,"\n","store: ",store_tmp,"\n","price: ",price_tmp,"\n","class: ",class_tmp,"\n","OK? Y/n","\n")
                 if input()=="Y":
                     DB.append([date_tmp,store_tmp,price_tmp,class_tmp])
-                    print("complete!"+"\n")
+                    print("complete!","\n")
                 else:
-                    print("cancel"+"\n")
+                    print("cancel","\n")
+
+# #search
+# def searchData():
+
+# #budget
+# def budget():
+     
+
+#DBの表示
+def showDB(db:list):
+    
+
+
+#lineの表示
+def printLine():
+    print("------------------------------------------------------------------------")
 
 def main():
-    DB=preReaderDB()
+    DB:list=preReaderDB()
     while True:
-        print("Hello!"+"\n"+"please select option"+"\n"+"|record|search|budget|")
-        option=input()
-        if option!="record" and option!="search" and option!="budget":
-            print("\n"+"Error:option is not true"+"\n")
-            continue
+        printLine()
+        print("Hello!","\n","please select option","\n","|record|search|budget|show|=end=|")
+        printLine()
+        option:str=input()
+        #選択肢フィルター            
         if option=="record":
             recordData(DB)
-        
+        # elif option=="search":
+        #     #searchメソッドの実装
+        #     search()
+        # elif option=="budget":
+        #     #budgetメソッドの実装
+            
+        elif option=="show":
+            #showメソッドの実装
+            showDB(DB)
+        elif option=="quit" or option=="exit" or option=="end":
+            break
+        else :
+            print("\n","Error:option is not true","\n")
+            continue
 
 if __name__=="__main__":
     main()
