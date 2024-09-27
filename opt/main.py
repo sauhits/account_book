@@ -38,6 +38,9 @@ def recordData(DB:list):
 def showDB(db:list):
     print(tab(db,headers=['date','name','price','class'],tablefmt='github',numalign='left'))
 
+#データの表示
+def showData(data:list):
+    print(tab(data,headers=['date','name','price','class'],tablefmt='github',numalign='left'))
 
 #lineの表示
 def printLine():
@@ -60,7 +63,6 @@ def main():
         #     #budgetメソッドの実装
             
         elif option=="show":
-            #showメソッドの実装
             showDB(DB)
         elif option=="quit" or option=="exit" or option=="end":
             break
