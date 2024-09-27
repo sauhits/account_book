@@ -1,43 +1,38 @@
-import csv
 import pandas as pd
-import pprint
 from tabulate import tabulate as tab
 
+
 #データの読み込み
-def preReaderDB():
-    DB:list=pd.read_csv("book.csv",header=None).values.tolist()
+def preReaderDB(csv:str):
+    DB:list=pd.read_csv(csv,header=None,encoding="shift_jis").values.tolist()
     # print(DB)
     return DB
 
 #データの記録　20000101,カネスエ,XXXX,free(loan)
 def recordData(db:list):
     while True:
-        print("\n"+"YYYYMMDD","\n")
-        date_tmp=input()
+        date_tmp=input("\nYYYYMMDD\n")
         if date_tmp=="q":
             return
         printLine()
-        print("storeName","\n")
-        store_tmp=input()
+        store_tmp=input("NAME\n")
         if store_tmp=="re":
             continue
         printLine()
-        print("price","\n")
-        price_tmp=input()
+        price_tmp=input("PRICE\n")
         if price_tmp=="re":
             continue
         printLine()
-        print("class","\n")
-        class_tmp=input()
+        class_tmp=input("CLASS\n")
         if class_tmp=="re":
             continue
         printLine()
-        print("\n","date: ",date_tmp,"\n","store: ",store_tmp,"\n","price: ",price_tmp,"\n","class: ",class_tmp,"\n","\n","OK? Y/n","\n")
-        if input()=="Y"or"y":
+        print("\nDATE: "+date_tmp+"\nNAME: "+store_tmp+"\nPRICE: "+price_tmp+"\nCLASS: "+class_tmp+"\n")
+        if input("\nOK? Y/n\n")=="Y"or"y":
             insertDataToDB(db,[date_tmp,store_tmp,price_tmp,class_tmp])
-            print("complete!","\n")
+            print("complete!\n")
         else:
-            print("cancel","\n")
+            print("cancel\n")
 
 #insert
 def insertDataToDB(db:list,data:list):
@@ -47,17 +42,8 @@ def insertDataToDB(db:list,data:list):
             return
     db.append(data)
 
-
-# #search
-# def searchData():
-
-# #budget
-# def budget():
-
-
 #DBの表示
 def showDB(db:list):
-    print(db)
     print(tab(db,headers=['date','name','price','class'],tablefmt='github',numalign='left'))
 
 #データの表示
@@ -66,30 +52,35 @@ def showData(data:list):
 
 #lineの表示
 def printLine():
-    print("-----------------------------------------")
+    print("---------------------------------------------------")
 
 def main():
-    DB:list=preReaderDB()
+    # 支出データの読み込み
+    ExpenditureDB:list=preReaderDB("Expenditure.csv")
+    IncomeDB:list=preReaderDB("Income.csv")
     while True:
         printLine()
-        print("Hello!","\n","please select option","\n","|record|search|budget|show|delete|quit|")
+        print("HELLO!\nplease select option\n| INCOME | EXPENDITURE |budget| SHOW |delete| QUIT |")
         printLine()
-        option:str=input()
+        
+        option:str=input().lower()
+        
         #選択肢フィルター            
-        if option=="record":
-            recordData(DB)
-        # elif option=="search":
-        #     #searchメソッドの実装
-        #     search()
-        # elif option=="budget":
-        #     #budgetメソッドの実装
-            
+        if option=="income":
+            recordData(IncomeDB)
+        elif option=="expenditure":
+            recordData(ExpenditureDB)
         elif option=="show":
-            showDB(DB)
+            printLine()
+            print("INCOME HISTORY")
+            showDB(IncomeDB)
+            printLine()
+            print("EXPENDITURE HISTORY")
+            showDB(ExpenditureDB)
         elif option=="quit" or option=="exit" or option=="end" or option=="q":
             break
         else :
-            print("\n","Error:option is not true","\n")
+            print("\nError:option is not true\n")
             continue
 
 if __name__=="__main__":
