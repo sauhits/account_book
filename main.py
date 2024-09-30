@@ -54,6 +54,20 @@ def showData(data:list):
 def printLine():
     print("---------------------------------------------------")
 
+# home表示
+def printHome():
+    # 予算の算出をする
+    SumExpenditureOfLoan=SumDBPrice(ExpenditureDB,"loan")
+    SumIncomeOfLoan=SumDBPrice(IncomeDB,"loan")
+    SumExpenditureOfFree=SumDBPrice(ExpenditureDB,"free")
+    SumIncomeOfFree=SumDBPrice(IncomeDB,"free")
+    BalanceOfLoan=SumIncomeOfLoan-SumExpenditureOfLoan
+    BalanceOfFree=SumIncomeOfFree-SumExpenditureOfFree
+    
+    printLine()
+    print("HELLO!\n\nBalance Loan:"+str(BalanceOfLoan)+"\n        Free:"+str(BalanceOfFree)+"\n\nplease select option\n| INCOME | EXPENDITURE |budget| SHOW |delete| QUIT |")
+    printLine()
+
 # データの金額合算の作成
 def SumDBPrice(db:list,type:str):
     SUM_tmp=0;int
@@ -67,20 +81,7 @@ def main():
     ExpenditureDB:list=preReaderDB("Expenditure.csv")
     IncomeDB:list=preReaderDB("Income.csv")
     while True:
-        
-        # 予算の算出をする
-        SumExpenditureOfLoan=SumDBPrice(ExpenditureDB,"loan")
-        SumIncomeOfLoan=SumDBPrice(IncomeDB,"loan")
-        SumExpenditureOfFree=SumDBPrice(ExpenditureDB,"free")
-        SumIncomeOfFree=SumDBPrice(IncomeDB,"free")
-        BalanceOfLoan=SumIncomeOfLoan-SumExpenditureOfLoan
-        BalanceOfFree=SumIncomeOfFree-SumExpenditureOfFree
-        
-        
-        printLine()
-        print("HELLO!\n\nBalance Loan:"+str(BalanceOfLoan)+"\n        Free:"+str(BalanceOfFree)+"\n\nplease select option\n| INCOME | EXPENDITURE |budget| SHOW |delete| QUIT |")
-        printLine()
-        
+        printHome()
         option:str=input().lower()
         
         #選択肢フィルター            
