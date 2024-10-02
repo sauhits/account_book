@@ -55,6 +55,17 @@ def insertDataToDB(db: list, data: list):
     db.append(data)
 
 
+# search
+def searchData(db: list, YYYYMM, name: str, type: str):
+    afterDB: list
+    if YYYYMM != "any":
+        for targetData in db:
+            betweenA = int(YYYYMM) * 100 + 1
+            betweenB = int(YYYYMM) * 100 + 31
+            if betweenA <= targetData[0] <= betweenB:
+                afterDB.append(targetData[0])
+
+
 # DBの表示
 def showDB(db: list):
     print(
@@ -112,7 +123,7 @@ def main():
             + str(BalanceOfLoan)
             + "\n        Free:"
             + str(BalanceOfFree)
-            + "\n\nplease select option\n| INCOME | EXPENDITURE |budget| SHOW |delete| QUIT |"
+            + "\n\nplease select option\n| INCOME | EXPENDITURE | SEARCH | SHOW |delete| QUIT |"
         )
         printLine()
         option: str = input().lower()
@@ -122,6 +133,15 @@ def main():
             recordData(IncomeDB)
         elif option == "expenditure":
             recordData(ExpenditureDB)
+        elif option == "search":
+            orderUsed = input("INCOME or EXPENDITURE ?\n")
+            orderDate = input("YYYYMM ?\n")
+            orderName = input("NAME ?\n")
+            orderType = input("FREE or LOAN ?\n")
+            if orderUsed == "income":
+                searchData(IncomeDB, orderDate, orderName, orderType)
+            else:
+                searchData(ExpenditureDB, orderDate, orderName, orderType)
         elif option == "show":
             printLine()
             print("INCOME HISTORY")
