@@ -67,7 +67,6 @@ def searchData(db: list, YYYYMM, name: str, type: str):
     else :
         for targetData in db :
             afterDB.append(targetData)
-    showDB(afterDB)
 
 
 # DBの表示
