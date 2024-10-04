@@ -6,10 +6,7 @@ from tabulate import tabulate as tab
 def preReaderDB(csv: str):
     DB: list = pd.read_csv(csv, header=None, encoding="shift_jis").values.tolist()
     # print(DB)
-    afterDB=[]
-    for record in DB:
-        afterDB.append({'date':record[0],'name':record[1],'price':record[2],'type':record[3]})
-    return afterDB
+    return DB
 
 
 # データの記録　20000101,カネスエ,XXXX,free(loan)
@@ -52,34 +49,17 @@ def recordData(db: list):
 # insert
 def insertDataToDB(db: list, data: list):
     for num_tmp, dateInDB in enumerate(db):
-        if int(dateInDB['date']) > int(data[0]):
-            db.insert(num_tmp, {'date':data[0],'name':data[1],'price':data[2],'type':data[3]})
+        if int(dateInDB[0]) > int(data[0]):
+            db.insert(num_tmp, data)
             return
-    db.append({'date':data[0],'name':data[1],'price':data[2],'type':data[3]})
-
-
-# search
-def searchData(db: list, YYYYMM, name: str, type: str):
-    afterDB=[]
-    if YYYYMM != "any":
-        for targetData in db:
-            betweenA = int(YYYYMM) * 100 + 1
-            betweenB = int(YYYYMM) * 100 + 31
-            if betweenA <= targetData['date'] <= betweenB:
-                afterDB.append(targetData)
-    else :
-        for targetData in db :
-            afterDB.append(targetData)
+    db.append(data)
 
 
 # DBの表示
 def showDB(db: list):
-    tmpDB=[]
-    for tmpData in db:
-        tmpDB.append([tmpData['date'],tmpData['name'],tmpData['price'],tmpData['type']])
     print(
         tab(
-            tmpDB,
+            db,
             headers=["date", "name", "price", "type"],
             tablefmt="github",
             numalign="left",
@@ -90,7 +70,12 @@ def showDB(db: list):
 # データの表示
 def showData(data: list):
     print(
-        data
+        tab(
+            data,
+            headers=["date", "name", "price", "type"],
+            tablefmt="github",
+            numalign="left",
+        )
     )
 
 
@@ -104,8 +89,8 @@ def SumDBPrice(db: list, type: str):
     SUM_tmp = 0
     int
     for data_price in db:
-        if type == data_price['type']:
-            SUM_tmp += int(data_price['price'])
+        if type == data_price[3]:
+            SUM_tmp += int(data_price[2])
     return SUM_tmp
 
 
@@ -127,7 +112,7 @@ def main():
             + str(BalanceOfLoan)
             + "\n        Free:"
             + str(BalanceOfFree)
-            + "\n\nplease select option\n| INCOME | EXPENDITURE | SEARCH | SHOW |delete| QUIT |"
+            + "\n\nplease select option\n| INCOME | EXPENDITURE |budget| SHOW |delete| QUIT |"
         )
         printLine()
         option: str = input().lower()
@@ -137,15 +122,6 @@ def main():
             recordData(IncomeDB)
         elif option == "expenditure":
             recordData(ExpenditureDB)
-        elif option == "search":
-            orderUsed = input("INCOME or EXPENDITURE ?\n")
-            orderDate = input("YYYYMM ?\n")
-            orderName = input("NAME ?\n")
-            orderType = input("FREE or LOAN ?\n")
-            if orderUsed == "income":
-                searchData(IncomeDB, orderDate, orderName, orderType)
-            else:
-                searchData(ExpenditureDB, orderDate, orderName, orderType)
         elif option == "show":
             printLine()
             print("INCOME HISTORY")
