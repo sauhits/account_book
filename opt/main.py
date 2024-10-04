@@ -6,7 +6,10 @@ from tabulate import tabulate as tab
 def preReaderDB(csv: str):
     DB: list = pd.read_csv(csv, header=None, encoding="shift_jis").values.tolist()
     # print(DB)
-    return DB
+    afterDB=[]
+    for record in DB:
+        afterDB.append({'date':record[0],'name':record[1],'price':record[2],'type':record[3]})
+    return afterDB
 
 
 # データの記録　20000101,カネスエ,XXXX,free(loan)
@@ -49,10 +52,10 @@ def recordData(db: list):
 # insert
 def insertDataToDB(db: list, data: list):
     for num_tmp, dateInDB in enumerate(db):
-        if int(dateInDB[0]) > int(data[0]):
-            db.insert(num_tmp, data)
+        if int(dateInDB['date']) > int(data[0]):
+            db.insert(num_tmp, {'date':data[0],'name':data[1],'price':data[2],'type':data[3]})
             return
-    db.append(data)
+    db.append({'date':data[0],'name':data[1],'price':data[2],'type':data[3]})
 
 
 # search
@@ -62,7 +65,7 @@ def searchData(db: list, YYYYMM, name: str, type: str):
         for targetData in db:
             betweenA = int(YYYYMM) * 100 + 1
             betweenB = int(YYYYMM) * 100 + 31
-            if betweenA <= targetData[0] <= betweenB:
+            if betweenA <= targetData['date'] <= betweenB:
                 afterDB.append(targetData)
     else :
         for targetData in db :
@@ -71,9 +74,12 @@ def searchData(db: list, YYYYMM, name: str, type: str):
 
 # DBの表示
 def showDB(db: list):
+    tmpDB=[]
+    for tmpData in db:
+        tmpDB.append([tmpData['date'],tmpData['name'],tmpData['price'],tmpData['type']])
     print(
         tab(
-            db,
+            tmpDB,
             headers=["date", "name", "price", "type"],
             tablefmt="github",
             numalign="left",
@@ -84,12 +90,7 @@ def showDB(db: list):
 # データの表示
 def showData(data: list):
     print(
-        tab(
-            data,
-            headers=["date", "name", "price", "type"],
-            tablefmt="github",
-            numalign="left",
-        )
+        data
     )
 
 
@@ -103,8 +104,8 @@ def SumDBPrice(db: list, type: str):
     SUM_tmp = 0
     int
     for data_price in db:
-        if type == data_price[3]:
-            SUM_tmp += int(data_price[2])
+        if type == data_price['type']:
+            SUM_tmp += int(data_price['price'])
     return SUM_tmp
 
 
