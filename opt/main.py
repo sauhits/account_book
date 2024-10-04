@@ -57,13 +57,17 @@ def insertDataToDB(db: list, data: list):
 
 # search
 def searchData(db: list, YYYYMM, name: str, type: str):
-    afterDB: list
+    afterDB=[]
     if YYYYMM != "any":
         for targetData in db:
             betweenA = int(YYYYMM) * 100 + 1
             betweenB = int(YYYYMM) * 100 + 31
             if betweenA <= targetData[0] <= betweenB:
-                afterDB.append(targetData[0])
+                afterDB.append(targetData)
+    else :
+        for targetData in db :
+            afterDB.append(targetData)
+    showDB(afterDB)
 
 
 # DBの表示
