@@ -4,7 +4,17 @@ from tabulate import tabulate as tab
 
 # データの読み込み
 def preReaderDB(csv: str):
+    afterDB = []
     DB: list = pd.read_csv(csv, header=None, encoding="shift_jis").values.tolist()
+    for target in DB:
+        afterDB.append(
+            {
+                "date": target[0],
+                "name": target[1],
+                "price": target[2],
+                "type": target[3],
+            }
+        )
     # print(DB)
     return DB
 
@@ -49,35 +59,28 @@ def recordData(db: list):
 # insert
 def insertDataToDB(db: list, data: list):
     for num_tmp, dateInDB in enumerate(db):
-        if int(dateInDB[0]) > int(data[0]):
-            db.insert(num_tmp, data)
+        if int(dateInDB["date"]) > int(data[0]):
+            db.insert(
+                num_tmp,
+                {"date": data[0], "name": data[1], "price": data[2], "type": data[3]},
+            )
             return
-    db.append(data)
+    db.append({"date": data[0], "name": data[1], "price": data[2], "type": data[3]})
 
 
 # DBの表示
 def showDB(db: list):
+    tmpDB=[]
+    for data in db:
+        tmpDB.append([data['date'],data['name'],data['price'],data['type']])
     print(
         tab(
-            db,
+            tmpDB,
             headers=["date", "name", "price", "type"],
             tablefmt="github",
             numalign="left",
         )
     )
-
-
-# データの表示
-def showData(data: list):
-    print(
-        tab(
-            data,
-            headers=["date", "name", "price", "type"],
-            tablefmt="github",
-            numalign="left",
-        )
-    )
-
 
 # lineの表示
 def printLine():
@@ -89,8 +92,8 @@ def SumDBPrice(db: list, type: str):
     SUM_tmp = 0
     int
     for data_price in db:
-        if type == data_price[3]:
-            SUM_tmp += int(data_price[2])
+        if type == data_price['type']:
+            SUM_tmp += int(data_price['type'])
     return SUM_tmp
 
 
