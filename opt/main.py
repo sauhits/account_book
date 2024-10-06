@@ -114,7 +114,7 @@ def main():
             + str(BalanceOfLoan)
             + "\n        Free:"
             + str(BalanceOfFree)
-            + "\n\nplease select option\n| INCOME | EXPENDITURE |budget| SHOW |delete| QUIT |"
+            + "\n\nplease select option\n| INCOME | EXPENDITURE | SHOW || QUIT |"
         )
         printLine()
         option: str = input().lower()
