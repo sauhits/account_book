@@ -1,7 +1,6 @@
 import pandas as pd
 from tabulate import tabulate as tab
 
-
 # データの読み込み
 def preReaderDB(csv: str):
     afterDB = []
