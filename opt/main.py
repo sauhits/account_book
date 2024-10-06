@@ -9,14 +9,14 @@ def preReaderDB(csv: str):
     for target in DB:
         afterDB.append(
             {
-                "date": target[0],
-                "name": target[1],
-                "price": target[2],
-                "type": target[3],
+                'date': target[0],
+                'name': target[1],
+                'price': target[2],
+                'type': target[3],
             }
         )
     # print(DB)
-    return DB
+    return afterDB
 
 
 # データの記録　20000101,カネスエ,XXXX,free(loan)
@@ -93,7 +93,7 @@ def SumDBPrice(db: list, type: str):
     int
     for data_price in db:
         if type == data_price['type']:
-            SUM_tmp += int(data_price['type'])
+            SUM_tmp += int(data_price['price'])
     return SUM_tmp
 
 
