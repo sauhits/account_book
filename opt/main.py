@@ -1,6 +1,7 @@
 import pandas as pd
 from tabulate import tabulate as tab
 
+
 # データの読み込み
 def preReaderDB(csv: str):
     afterDB = []
@@ -8,10 +9,10 @@ def preReaderDB(csv: str):
     for target in DB:
         afterDB.append(
             {
-                'date': target[0],
-                'name': target[1],
-                'price': target[2],
-                'type': target[3],
+                "date": target[0],
+                "name": target[1],
+                "price": target[2],
+                "type": target[3],
             }
         )
     # print(DB)
@@ -67,11 +68,34 @@ def insertDataToDB(db: list, data: list):
     db.append({"date": data[0], "name": data[1], "price": data[2], "type": data[3]})
 
 
+# search
+def searchData(db: list, yyyymm, name, type):
+    afterDB = []
+    if yyyymm != "any":
+        fromDate = int(yyyymm) * 100
+        toDate = int(yyyymm) * 100 + 31
+        for targetData in db:
+            if fromDate <= targetData["date"] <= toDate:
+                afterDB.append(targetData)
+    else:
+        for targetData in db:
+            afterDB.append(targetData)
+    if name != "any":
+        for targetData in afterDB:
+            if targetData["name"] != name:
+                afterDB.remove(targetData)
+    if type != "any":
+        for targetData in afterDB:
+            if targetData["type"] != type:
+                afterDB.remove(targetData)
+    return afterDB
+
+
 # DBの表示
 def showDB(db: list):
-    tmpDB=[]
+    tmpDB = []
     for data in db:
-        tmpDB.append([data['date'],data['name'],data['price'],data['type']])
+        tmpDB.append([data["date"], data["name"], data["price"], data["type"]])
     print(
         tab(
             tmpDB,
@@ -80,6 +104,7 @@ def showDB(db: list):
             numalign="left",
         )
     )
+
 
 # lineの表示
 def printLine():
@@ -91,8 +116,8 @@ def SumDBPrice(db: list, type: str):
     SUM_tmp = 0
     int
     for data_price in db:
-        if type == data_price['type']:
-            SUM_tmp += int(data_price['price'])
+        if type == data_price["type"]:
+            SUM_tmp += int(data_price["price"])
     return SUM_tmp
 
 
@@ -114,7 +139,7 @@ def main():
             + str(BalanceOfLoan)
             + "\n        Free:"
             + str(BalanceOfFree)
-            + "\n\nplease select option\n| INCOME | EXPENDITURE | SHOW || QUIT |"
+            + "\n\nplease select option\n| INCOME | EXPENDITURE | SHOW | SEARCH | QUIT |"
         )
         printLine()
         option: str = input().lower()
@@ -131,6 +156,24 @@ def main():
             printLine()
             print("EXPENDITURE HISTORY")
             showDB(ExpenditureDB)
+        elif option == "search":
+            print("\nINCOME or EXPENDITURE\n")
+            targetDB = input()
+
+            printLine()
+            print("YYYYMM ?")
+            targetDate = input()
+            printLine()
+            print("NAME ?")
+            targetName = input()
+            printLine()
+            print("TYPE ?")
+            targetType = input()
+            printLine()
+            if targetDB == "income":
+                showDB(searchData(IncomeDB, targetDate, targetName, targetType))
+            else:
+                showDB(searchData(ExpenditureDB, targetDate, targetName, targetType))
         elif option == "quit" or option == "exit" or option == "end" or option == "q":
             break
         else:
