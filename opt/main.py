@@ -105,6 +105,7 @@ def showDB(db: list):
             headers=["date", "name", "price", "type"],
             tablefmt="github",
             numalign="left",
+            showindex=True
         )
     )
 
