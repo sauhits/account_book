@@ -67,6 +67,9 @@ def insertDataToDB(db: list, data: list):
             return
     db.append({"date": data[0], "name": data[1], "price": data[2], "type": data[3]})
 
+#delete
+def deleteData():
+    
 
 # search
 def searchData(db: list, yyyymm, name, type):
