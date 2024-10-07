@@ -174,10 +174,13 @@ def main():
         option: str = input().lower()
 
         # 選択肢フィルター
+        # income
         if option == "income":
             recordData(IncomeDB)
+        # expenditure
         elif option == "expenditure":
             recordData(ExpenditureDB)
+        # show
         elif option == "show":
             printLine()
             print("INCOME HISTORY")
@@ -185,6 +188,7 @@ def main():
             printLine()
             print("EXPENDITURE HISTORY")
             showDB(ExpenditureDB)
+        # search
         elif option == "search":
             print("\nINCOME or EXPENDITURE\n")
             targetDB = input()
@@ -202,11 +206,16 @@ def main():
                 showDB(searchData(IncomeDB, targetDate, targetName, targetType))
             else:
                 showDB(searchData(ExpenditureDB, targetDate, targetName, targetType))
+        # delete
         elif option == "delete":
             print("\nINCOME or EXPENDITURE\n")
             targetDB = input()
             printLine()
-            deleteData(targetDB)
+            if targetDB.lower == "income":
+                deleteData(IncomeDB)
+            else:
+                deleteData(ExpenditureDB)
+        # quit
         elif option == "quit" or option == "exit" or option == "end" or option == "q":
             break
         else:
