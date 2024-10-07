@@ -88,7 +88,7 @@ def searchData(db: list, yyyymm, name, type):
         for targetData in afterDB:
             if targetData["type"] != type:
                 afterDB.remove(targetData)
-    showDB(afterDB)
+    return afterDB
 
 
 # DBの表示
@@ -171,9 +171,9 @@ def main():
             targetType = input()
             printLine()
             if targetDB == "income":
-                searchData(IncomeDB, targetDate, targetName, targetType)
+                showDB(searchData(IncomeDB, targetDate, targetName, targetType))
             else:
-                searchData(ExpenditureDB, targetDate, targetName, targetType)
+                showDB(searchData(ExpenditureDB, targetDate, targetName, targetType))
         elif option == "quit" or option == "exit" or option == "end" or option == "q":
             break
         else:
