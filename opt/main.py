@@ -188,7 +188,6 @@ def main():
         elif option == "search":
             print("\nINCOME or EXPENDITURE\n")
             targetDB = input()
-
             printLine()
             print("YYYYMM ?")
             targetDate = input()
@@ -203,6 +202,11 @@ def main():
                 showDB(searchData(IncomeDB, targetDate, targetName, targetType))
             else:
                 showDB(searchData(ExpenditureDB, targetDate, targetName, targetType))
+        elif option == "delete":
+            print("\nINCOME or EXPENDITURE\n")
+            targetDB = input()
+            printLine()
+            deleteData(targetDB)
         elif option == "quit" or option == "exit" or option == "end" or option == "q":
             break
         else:
