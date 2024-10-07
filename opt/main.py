@@ -67,9 +67,34 @@ def insertDataToDB(db: list, data: list):
             return
     db.append({"date": data[0], "name": data[1], "price": data[2], "type": data[3]})
 
-#delete
-def deleteData():
-    
+
+# delete
+def deleteData(db: list):
+    showDB(db)
+    print("RECORD NUMBER ?\n")
+    targetIndex = int(input())
+    printLine()
+    tmpDB = [
+        db[targetIndex]["date"],
+        db[targetIndex]["name"],
+        db[targetIndex]["price"],
+        db[targetIndex]["type"],
+    ]
+    print(
+        tab(
+            tmpDB,
+            headers=["date", "name", "price", "type"],
+            tablefmt="github",
+            numalign="left",
+        )
+    )
+    print("Y/n ?\n")
+    if input().lower == "y":
+        db.remove(db[targetIndex])
+        print("complete!")
+    showDB(db)
+    return db
+
 
 # search
 def searchData(db: list, yyyymm, name, type):
@@ -105,7 +130,7 @@ def showDB(db: list):
             headers=["date", "name", "price", "type"],
             tablefmt="github",
             numalign="left",
-            showindex=True
+            showindex=True,
         )
     )
 
