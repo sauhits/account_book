@@ -26,11 +26,11 @@ def preReaderDB(csv: str):
 # データの書き込み
 def WriterDB(income: list, expenditure: list):
     # db1
-    df1_tmp = pd.json_normalize(db1)
+    df1_tmp = pd.json_normalize(income)
     print("complete save data !")
     df1_tmp.to_csv("Income.csv", header=False, index=False)
     # db2
-    df1_tmp = pd.json_normalize(db1)
+    df1_tmp = pd.json_normalize(expenditure)
     print("complete save data !")
     df1_tmp.to_csv("Expenditure.csv", header=False, index=False)
 
