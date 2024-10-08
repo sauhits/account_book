@@ -15,5 +15,5 @@ RUN pip install --upgrade pip
 RUN pip install --upgrade setuptools
 
 RUN python -m pip install jupyterlab
-RUN python -m pip install pandas
+RUN python -m pip install pandas==2.2.3
 RUN python -m pip install tabulate
