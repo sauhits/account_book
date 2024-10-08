@@ -5,16 +5,21 @@ from tabulate import tabulate as tab
 # データの読み込み
 def preReaderDB(csv: str):
     afterDB = []
-    DB: list = pd.read_csv(csv, header=None, encoding="shift_jis").values.tolist()
-    for target in DB:
-        afterDB.append(
-            {
-                "date": target[0],
-                "name": target[1],
-                "price": target[2],
-                "type": target[3],
-            }
-        )
+    try:
+        DB: list = pd.read_csv(csv, header=None, encoding="shift_jis").values.tolist()
+    except FileNotFoundError:
+        print(FileExistsError)
+    else:
+        for target in DB:
+            afterDB.append(
+                {
+                    "date": target[0],
+                    "name": target[1],
+                    "price": target[2],
+                    "type": target[3],
+                }
+            )
+        afterDB = sorted(afterDB, key=lambda x: x["date"])
     # print(DB)
     return afterDB
 
