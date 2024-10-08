@@ -84,6 +84,8 @@ def deleteData(db: list):
             print("Fail Index Number\n")
             continue
         else:
+            if targetIndex == "q":
+                break
             printLine()
             tmpDB = [
                 db[targetIndex]["date"],
@@ -95,8 +97,10 @@ def deleteData(db: list):
             print("Y/n ?\n")
             if input() == "y" or "Y":
                 db.remove(db[targetIndex])
-            print("complete!")
-            return db
+                print("complete!")
+            else:
+                continue
+        return db
 
 
 # search
