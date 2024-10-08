@@ -19,7 +19,7 @@ def preReaderDB(csv: str):
                     "type": target[3],
                 }
             )
-        afterDB = sorted(afterDB, key=lambda x: x["date"])
+        # afterDB = sorted(afterDB, key=lambda x: x["date"])
     # print(DB)
     return afterDB
 
