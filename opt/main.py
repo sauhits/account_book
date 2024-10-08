@@ -68,6 +68,32 @@ def insertDataToDB(db: list, data: list):
     db.append({"date": data[0], "name": data[1], "price": data[2], "type": data[3]})
 
 
+# delete
+def deleteData(db: list):
+    while True:
+        showDB(db)
+        print("RECORD NUMBER ?\n")
+        try:
+            targetIndex = int(input())
+        except (IndexError, ValueError):
+            print("Fail Index Number\n")
+            continue
+        else:
+            printLine()
+            tmpDB = [
+                db[targetIndex]["date"],
+                db[targetIndex]["name"],
+                db[targetIndex]["price"],
+                db[targetIndex]["type"],
+            ]
+            print(tmpDB)
+            print("Y/n ?\n")
+            if input() == "y" or "Y":
+                db.remove(db[targetIndex])
+            print("complete!")
+            return db
+
+
 # search
 def searchData(db: list, yyyymm, name, type):
     afterDB = []
@@ -102,6 +128,7 @@ def showDB(db: list):
             headers=["date", "name", "price", "type"],
             tablefmt="github",
             numalign="left",
+            showindex=True,
         )
     )
 
@@ -139,16 +166,19 @@ def main():
             + str(BalanceOfLoan)
             + "\n        Free:"
             + str(BalanceOfFree)
-            + "\n\nplease select option\n| INCOME | EXPENDITURE | SHOW | SEARCH | QUIT |"
+            + "\n\nplease select option\n| INCOME | EXPENDITURE | SHOW | SEARCH | DELETE | QUIT |"
         )
         printLine()
         option: str = input().lower()
 
         # 選択肢フィルター
+        # income
         if option == "income":
             recordData(IncomeDB)
+        # expenditure
         elif option == "expenditure":
             recordData(ExpenditureDB)
+        # show
         elif option == "show":
             printLine()
             print("INCOME HISTORY")
@@ -156,10 +186,10 @@ def main():
             printLine()
             print("EXPENDITURE HISTORY")
             showDB(ExpenditureDB)
+        # search
         elif option == "search":
             print("\nINCOME or EXPENDITURE\n")
             targetDB = input()
-
             printLine()
             print("YYYYMM ?")
             targetDate = input()
@@ -174,6 +204,16 @@ def main():
                 showDB(searchData(IncomeDB, targetDate, targetName, targetType))
             else:
                 showDB(searchData(ExpenditureDB, targetDate, targetName, targetType))
+        # delete
+        elif option == "delete":
+            print("\nINCOME or EXPENDITURE\n")
+            targetDB = input()
+            printLine()
+            if targetDB.lower == "income":
+                IncomeDB = deleteData(IncomeDB)
+            else:
+                IncomeDB = deleteData(ExpenditureDB)
+        # quit
         elif option == "quit" or option == "exit" or option == "end" or option == "q":
             break
         else:
