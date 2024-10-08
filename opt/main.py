@@ -23,6 +23,18 @@ def preReaderDB(csv: str):
     return afterDB
 
 
+# データの書き込み
+def WriterDB(income: list, expenditure: list):
+    # db1
+    df1_tmp = pd.json_normalize(db1)
+    print("complete save data !")
+    df1_tmp.to_csv("Income.csv", header=False, index=False)
+    # db2
+    df1_tmp = pd.json_normalize(db1)
+    print("complete save data !")
+    df1_tmp.to_csv("Expenditure.csv", header=False, index=False)
+
+
 # データの記録　20000101,カネスエ,XXXX,free(loan)
 def recordData(db: list):
     while True:
@@ -178,7 +190,6 @@ def main():
         )
         printLine()
         option: str = input().lower()
-
         # 選択肢フィルター
         # income
         if option == "income":
@@ -227,6 +238,7 @@ def main():
         else:
             print("\nError:option is not true\n")
             continue
+    WriterDB(IncomeDB, ExpenditureDB)
 
 
 if __name__ == "__main__":
