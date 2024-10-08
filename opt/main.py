@@ -70,30 +70,28 @@ def insertDataToDB(db: list, data: list):
 
 # delete
 def deleteData(db: list):
-    showDB(db)
-    print("RECORD NUMBER ?\n")
-    targetIndex = int(input())
-    printLine()
-    tmpDB = [
-        db[targetIndex]["date"],
-        db[targetIndex]["name"],
-        db[targetIndex]["price"],
-        db[targetIndex]["type"],
-    ]
-    print(
-        tab(
-            tmpDB,
-            headers=["date", "name", "price", "type"],
-            tablefmt="github",
-            numalign="left",
-        )
-    )
-    print("Y/n ?\n")
-    if input().lower == "y":
-        db.remove(db[targetIndex])
-        print("complete!")
-    showDB(db)
-    return db
+    while True:
+        showDB(db)
+        print("RECORD NUMBER ?\n")
+        try:
+            targetIndex = int(input())
+        except (IndexError, ValueError):
+            print("Fail Index Number\n")
+            continue
+        else:
+            printLine()
+            tmpDB = [
+                db[targetIndex]["date"],
+                db[targetIndex]["name"],
+                db[targetIndex]["price"],
+                db[targetIndex]["type"],
+            ]
+            print(tmpDB)
+            print("Y/n ?\n")
+            if input() == "y" or "Y":
+                db.remove(db[targetIndex])
+            print("complete!")
+            return db
 
 
 # search
@@ -168,7 +166,7 @@ def main():
             + str(BalanceOfLoan)
             + "\n        Free:"
             + str(BalanceOfFree)
-            + "\n\nplease select option\n| INCOME | EXPENDITURE | SHOW | SEARCH | QUIT |"
+            + "\n\nplease select option\n| INCOME | EXPENDITURE | SHOW | SEARCH | DELETE | QUIT |"
         )
         printLine()
         option: str = input().lower()
@@ -212,9 +210,9 @@ def main():
             targetDB = input()
             printLine()
             if targetDB.lower == "income":
-                deleteData(IncomeDB)
+                IncomeDB = deleteData(IncomeDB)
             else:
-                deleteData(ExpenditureDB)
+                IncomeDB = deleteData(ExpenditureDB)
         # quit
         elif option == "quit" or option == "exit" or option == "end" or option == "q":
             break
